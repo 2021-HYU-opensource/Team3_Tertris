@@ -18,4 +18,12 @@ Downloading Pygame Tutorial: https://www.youtube.com/watch?v=AdUZArA-kZw
 # 사용 방법
 
 # 개발 매뉴얼
-
+## Contents
+1. Setup Development Environments
+   1. Install Python
+      1. Go to [Python Download site](https://www.python.org/downloads/)
+      2. Once the site is open, select Download Python 3.x.x or Select which version of Python you would like to use from the under "Looking for a specific release?".
+We recommend using Python 3.10.0 for this project. Once you've determined which version you would like to install, select Download.
+      3. open (Linux/mac) Terminal / (Windows) PowerShell 
+   2. 
+2. Class / Functions
