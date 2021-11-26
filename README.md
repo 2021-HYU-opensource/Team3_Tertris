@@ -27,4 +27,12 @@ Downloading Pygame Tutorial: https://www.youtube.com/watch?v=AdUZArA-kZw
 한 줄이 모두 블럭으로 채워지면 +10점을 얻는다. 150점을 얻으면 승리한다.
 
 # 개발 매뉴얼
-
+## Contents
+1. Setup Development Environments
+   1. Install Python
+      1. Go to [Python Download site](https://www.python.org/downloads/)
+      2. Once the site is open, select Download Python 3.x.x or Select which version of Python you would like to use from the under "Looking for a specific release?".
+We recommend using Python 3.10.0 for this project. Once you've determined which version you would like to install, select Download.
+      3. open (Linux/mac) Terminal / (Windows) PowerShell 
+   2. 
+2. Class / Functions
