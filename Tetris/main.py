@@ -110,7 +110,7 @@ T = [['.....',
      ['.....',
       '.....',
       '.000.',
-333      '..0..',
+      '..0..',
       '.....'],
      ['.....',
       '..0..',
@@ -249,12 +249,11 @@ def draw_next_shape(shape, surface):
                                  (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
 
         surface.blit(label, (sx + 10, sy - 30))
-def next_block():
-    shape = *next_blockd shape
-    return shape
+
 
 def hold_block():
-    if ()
+    pass
+
 
 def max_score():
     with open("Score.txt", "r") as f:
