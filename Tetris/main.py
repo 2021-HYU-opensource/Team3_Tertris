@@ -237,11 +237,9 @@ def draw_next_shape(shape, surface):
     font = pygame.font.SysFont("comicsans", 30)
     label = font.render("Next Shape:", True, (255, 255, 255))
 
-
     sx = top_left_x + play_width + 50
     sy = int(top_left_y + play_height / 2 - 100)
     shape_format = shape.shape[shape.rotation % len(shape.shape)]
-
 
     for i, line in enumerate(shape_format):
         row = list(line)
@@ -249,29 +247,11 @@ def draw_next_shape(shape, surface):
             if column == '0':
                 pygame.draw.rect(surface, shape.color,
                                  (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
-		surface.blit(label, (sx + 10, sy - 30))
-    
-#hold칸 그리기 
-def draw_hold_shape(shape,surface):
-        font = pygame.font.SysFont("comicsans", 30)
-        label = font.render("Hold Shape:", 1, (255, 255, 255))
-        
-        hx =  top_left_x + play_width + 50
-        hy = top_left_y + play_height / 2 - 350
-        shape_format = shape.shape[shape.rotation % len(shape.shape)]
-        for i, line in enumerate(shape_format):
-                row = list(line)
-                for j, column in enumerate(row):
-                        if column == '0':
-                                pygame.draw.rect(surface, shape.color, (hx + j * block_size, hy + i * block_size, block_size, block_size), 0)
-                surface.blit(label, (hx + 10, hy - 30))                
+
         surface.blit(label, (sx + 10, sy - 30))
-        
-        
 def next_block():
     shape = *next_blockd shape
     return shape
-
 
 def hold_block():
     if ()
@@ -307,10 +287,8 @@ def draw_window(surface, grid, score=0):
     font = pygame.font.SysFont("comicsans", 30)
     label = font.render("Score: " + str(score), True, (255, 255, 255))
 
-
     sx = top_left_x + play_width + 50
     sy = top_left_y + play_height / 2 - 100
-
 
     surface.blit(label, (sx + 30, sy + 160))
 
@@ -320,14 +298,7 @@ def draw_window(surface, grid, score=0):
     sx = top_left_x + play_width + 50
     sy = top_left_y + play_height / 2 - 100
 
-
-	surface.blit(label, (sx + 10, sy + 200))
-	#홀드 안내 문구
-	font = pygame.font.SysFont("comicsans", 30)
-	label = font.render("Hold = press 'h'", 1, (255, 255, 255 ))
-	hx =  top_left_x + play_width + 50
-	hy = top_left_y + play_height / 2 - 370
-	surface.blit(label, (hx + 10, hy + 200))
+    surface.blit(label, (sx + 10, sy + 200))
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):
