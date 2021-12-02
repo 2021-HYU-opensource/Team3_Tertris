@@ -110,17 +110,23 @@ T = [['.....',
      ['.....',
       '.....',
       '.000.',
-333      '..0..',
+      '..0..',
       '.....'],
      ['.....',
       '..0..',
       '.00..',
       '..0..',
       '.....']]
+B = [['.....',
+      '.....',
+      '.....',
+      '.....',
+      '.....']]
 
 shapes = [S, Z, I, O, J, L, T]
 shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
-
+blank = [B]
+blank_color = ([0, 0, 0])
 
 # index 0 - 6 represent shape
 
@@ -132,8 +138,13 @@ class Piece(object):
         self.shape = shape
         self.color = shape_colors[shapes.index(shape)]
         self.rotation = 0
-
-
+class Blank(object):
+    def __init__(self, x, y, blank):
+        self.x = x
+        self.y = y
+        self.shape = blank
+        self.color = blank_color
+        self.rotation = 0
 def create_grid(locked_pos={}):
     grid = [[(0, 0, 0) for _ in range(10)] for _ in range(20)]
 
@@ -194,7 +205,7 @@ def draw_text_middle(surface, text, size, color):
     label = font.render(text, True, color)
 
     surface.blit(label, (
-    top_left_x + play_width / 2 - (label.get_width() / 2), top_left_y + play_height / 2 - (label.get_height() / 2)))
+        top_left_x + play_width / 2 - (label.get_width() / 2), top_left_y + play_height / 2 - (label.get_height() / 2)))
 
 
 def draw_grid(surface, grid):
@@ -249,12 +260,34 @@ def draw_next_shape(shape, surface):
                                  (sx + j * block_size, sy + i * block_size, block_size, block_size), 0)
 
         surface.blit(label, (sx + 10, sy - 30))
-def next_block():
-    shape = *next_blockd shape
-    return shape
 
-def hold_block():
-    if ()
+
+# hold칸 그리기
+def draw_hold_shape(shape, surface):
+    font = pygame.font.SysFont("comicsans", 30)
+    label = font.render("Hold Shape:", 1, (255, 255, 255))
+
+    hx = top_left_x + play_width + 50
+    hy = top_left_y + play_height / 2 - 350
+    shape_format = shape.shape[shape.rotation % len(shape.shape)]
+    for i, line in enumerate(shape_format):
+        row = list(line)
+        for j, column in enumerate(row):
+            if column == '0':
+                pygame.draw.rect(surface, shape.color,
+                                 (hx + j * block_size, hy + i * block_size, block_size, block_size), 0)
+        surface.blit(label, (hx + 10, hy - 30))
+
+
+def next_block():
+    next_block = get_shape()
+    return next_block
+
+
+def current_block():
+    current_block = get_shape()
+    return current_block
+
 
 def max_score():
     with open("Score.txt", "r") as f:
@@ -315,13 +348,16 @@ def main(win):
 
     changed_piece = False
     run = True
-    current_piece = get_shape()
-    next_piece = get_shape()
+    current_piece = current_block()
+    next_piece = next_block()
+    hold_piece = Blank(0, 0, blank)
+    blank_piece = Blank(0, 0, blank)
     clock = pygame.time.Clock()
     fall_time = 0
     fall_speed = 0.27
     level_time = 0
     score = 0
+    count = 0
 
     while run:
         grid = create_grid(locked_positions)
@@ -370,6 +406,27 @@ def main(win):
                     current_piece.rotation += 1
                     if not (valid_space(current_piece, grid)):
                         current_piece.rotation -= 1
+                #Add hold function
+                if event.key == pygame.K_c:
+                    if count == 0:
+                        hold_piece.shape = current_piece.shape
+                        hold_piece.color = current_piece.color
+                        draw_hold_shape(current_piece, win)
+                        current_piece.shape = next_piece.shape
+                        current_piece.color = next_piece.color
+                        next_piece = get_shape()
+                        draw_next_shape(next_piece, win)
+                        pygame.display.update()
+                        count += 1
+                    else:
+                        blank_piece.shape = hold_piece.shape
+                        blank_piece.color = hold_piece.color
+                        hold_piece.shape = current_piece.shape
+                        hold_piece.color = current_piece.color
+                        draw_hold_shape(current_piece, win)
+                        current_piece.shape = blank_piece.shape
+                        current_piece.color = blank_piece.color
+
 
         shape_pos = convert_shape_format(current_piece)
 
@@ -389,6 +446,7 @@ def main(win):
 
         draw_window(win, grid, score)
         draw_next_shape(next_piece, win)
+        draw_hold_shape(hold_piece, win)
         pygame.display.update()
 
         if check_lost(locked_positions):
