@@ -24,6 +24,10 @@ Downloading Pygame Tutorial: https://www.youtube.com/watch?v=AdUZArA-kZw
 
 아래 화살표 키: 블럭 떨어지는 속도증가
 
+Z키 : 블럭 왼쪽으로 회전
+
+X키 : 블럭 오른쪽으로 회전
+
 한 줄이 모두 블럭으로 채워지면 +10점을 얻는다. 150점을 얻으면 승리한다.
 
 # 개발 매뉴얼
