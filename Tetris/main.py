@@ -262,6 +262,7 @@ def draw_next_shape(shape, surface):
         surface.blit(label, (sx + 10, sy - 30))
 
 
+
 # hold칸 그리기
 def draw_hold_shape(shape, surface):
     font = pygame.font.SysFont("comicsans", 30)
@@ -287,6 +288,7 @@ def next_block():
 def current_block():
     current_block = get_shape()
     return current_block
+
 
 
 def max_score():
