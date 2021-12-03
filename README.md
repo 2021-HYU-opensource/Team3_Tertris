@@ -24,6 +24,8 @@ Downloading Pygame Tutorial: https://www.youtube.com/watch?v=AdUZArA-kZw
 
 아래 화살표 키: 블럭 떨어지는 속도증가
 
+C키 : 다른 모양의 블럭으로 변경
+
 Z키 : 블럭 왼쪽으로 회전
 
 X키 : 블럭 오른쪽으로 회전
