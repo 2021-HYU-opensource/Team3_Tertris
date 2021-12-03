@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 pygame.font.init()
 
@@ -390,14 +391,17 @@ def main(win):
             current_piece.y += 1
             if not(valid_space(current_piece, grid)):
                 current_piece.y -= 1
+            time.sleep(0.05)
         if moveLeft :
             current_piece.x -= 1
             if not(valid_space(current_piece, grid)):
                 current_piece.x += 1
+            time.sleep(0.05)
         if moveRight:
             current_piece.x += 1
             if not(valid_space(current_piece, grid)):
                 current_piece.x -= 1
+            time.sleep(0.05)
         
         for event in pygame.event.get():
             
