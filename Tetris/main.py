@@ -1,4 +1,3 @@
-# module
 import pygame
 import random
 
@@ -345,7 +344,11 @@ def draw_window(surface, grid, score=0):
     draw_grid(surface, grid)
 
 
+
 def main(win):
+    moveLeft = False
+    moveRight = False
+    moveDown = False
     locked_positions = {}
 
     changed_piece = False
@@ -360,12 +363,16 @@ def main(win):
     level_time = 0
     score = 0
     count = 0
+    
+    
 
     while run:
         grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime()
         level_time += clock.get_rawtime()
         clock.tick()
+        
+        
 
         if level_time / 1000 > 5:
             level_time = 0
@@ -378,56 +385,92 @@ def main(win):
             if not (valid_space(current_piece, grid)) and current_piece.y > 0:
                 current_piece.y -= 1
                 changed_piece = True
-
+                
+        if moveDown :
+            current_piece.y += 1
+            if not(valid_space(current_piece, grid)):
+                current_piece.y -= 1
+        if moveLeft :
+            current_piece.x -= 1
+            if not(valid_space(current_piece, grid)):
+                current_piece.x += 1
+        if moveRight:
+            current_piece.x += 1
+            if not(valid_space(current_piece, grid)):
+                current_piece.x -= 1
+        
         for event in pygame.event.get():
+            
+                
             if event.type == pygame.QUIT:
                 run = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    current_piece.x -= 1
-                    if not (valid_space(current_piece, grid)):
-                        current_piece.x += 1
 
-                if event.key == pygame.K_RIGHT:
-                    current_piece.x += 1
-                    if not (valid_space(current_piece, grid)):
-                        current_piece.x -= 1
-
-                if event.key == pygame.K_DOWN:
-                    current_piece.y += 1
-                    if not (valid_space(current_piece, grid)):
-                        current_piece.y -= 1
-
-                if event.key == pygame.K_UP:
-                    current_piece.rotation += 1
-                    if not (valid_space(current_piece, grid)):
-                        current_piece.rotation -= 1
-
-                if event.key == pygame.K_SPACE:
-                    current_piece.rotation += 1
-                    if not (valid_space(current_piece, grid)):
-                        current_piece.rotation -= 1
+                if event.key == pygame.K_LEFT :
+                    moveRight = False
+                    moveLeft = True
+                if event.key == pygame.K_RIGHT :
+                    moveRight = True
+                    moveLeft = False
+                if event.key == pygame.K_DOWN :
+                    moveDown = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT :
+                    moveLeft = False
+                if event.key == pygame.K_RIGHT :
+                    moveRight = False
+                if event.key == pygame.K_DOWN :
+                    moveDown = False
+                    
+        
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_LEFT:
+#                     current_piece.x -= 1
+#                     if not (valid_space(current_piece, grid)):
+#                         current_piece.x += 1
+# 
+#                 if event.key == pygame.K_RIGHT:
+#                     current_piece.x += 1
+#                     if not (valid_space(current_piece, grid)):
+#                         current_piece.x -= 1
+# 
+#                 if event.key == pygame.K_DOWN:
+#                     current_piece.y += 1
+#                     if not (valid_space(current_piece, grid)):
+#                         current_piece.y -= 1
+# 
+#                 if event.key == pygame.K_UP:
+#                     current_piece.rotation += 1
+#                     if not (valid_space(current_piece, grid)):
+#                         current_piece.rotation -= 1
+# 
+#                 if event.key == pygame.K_SPACE:
+#                     current_piece.rotation += 1
+#                     if not (valid_space(current_piece, grid)):
+#                         current_piece.rotation -= 1
+#                 
                 #Add hold function
-                if event.key == pygame.K_c:
-                    if count == 0:
-                        hold_piece.shape = current_piece.shape
-                        hold_piece.color = current_piece.color
-                        draw_hold_shape(current_piece, win)
-                        current_piece.shape = next_piece.shape
-                        current_piece.color = next_piece.color
-                        next_piece = get_shape()
-                        draw_next_shape(next_piece, win)
-                        pygame.display.update()
-                        count += 1
-                    else:
-                        blank_piece.shape = hold_piece.shape
-                        blank_piece.color = hold_piece.color
-                        hold_piece.shape = current_piece.shape
-                        hold_piece.color = current_piece.color
-                        draw_hold_shape(current_piece, win)
-                        current_piece.shape = blank_piece.shape
-                        current_piece.color = blank_piece.color
+                        
+            if event.key == pygame.K_c:
+                if count == 0:
+                    hold_piece.shape = current_piece.shape
+                    hold_piece.color = current_piece.color
+                    draw_hold_shape(current_piece, win)
+                    current_piece.shape = next_piece.shape
+                    current_piece.color = next_piece.color
+                    next_piece = get_shape()
+                    draw_next_shape(next_piece, win)
+                    pygame.display.update()
+                    count += 1
+                else:
+                    blank_piece.shape = hold_piece.shape
+                    blank_piece.color = hold_piece.color
+                    hold_piece.shape = current_piece.shape
+                    hold_piece.color = current_piece.color
+                    draw_hold_shape(current_piece, win)
+                    current_piece.shape = blank_piece.shape
+                    current_piece.color = blank_piece.color
 
 
         shape_pos = convert_shape_format(current_piece)
