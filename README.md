@@ -46,3 +46,10 @@ We recommend using Python 3.10.0 for this project. Once you've determined which 
          1. open a new Terminal and Enter ```python```
          2. Enter ```import pygame```
 2. Class / Functions
+   1. class Piece(object)
+      - def \_\_init\_\_(self, x, y, shape)
+      - 좌표, 모양을 가지는 객체
+   2. def create_grid(locked_pos={})
+      - 빈 그리드 생성
+   3. def convert_shape_format(shape)
+      -
