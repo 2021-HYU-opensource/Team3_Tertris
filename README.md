@@ -51,5 +51,5 @@ We recommend using Python 3.10.0 for this project. Once you've determined which 
       - 좌표, 모양을 가지는 객체
    2. def create_grid(locked_pos={})
       - 빈 그리드 생성
-   3. def convert_shape_format(shape)
-      -
+      - return list\[20\]\[10\]
+
