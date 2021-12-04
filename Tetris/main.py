@@ -122,11 +122,19 @@ B = [['.....',
       '.....',
       '.....',
       '.....']]
+E = [['.....',
+      '.....',
+      '.000.',
+      '.000.',
+      '.....']]
 
 shapes = [S, Z, I, O, J, L, T]
 shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
 blank = [B]
+item = [E]
 blank_color = ([0, 0, 0])
+item_color = ([0, 128, 0])
+
 
 # index 0 - 6 represent shape
 
@@ -146,6 +154,15 @@ class Blank(object):
         self.y = y
         self.shape = blank
         self.color = blank_color
+        self.rotation = 0
+
+
+class Item(object):
+    def __init__(self, x, y, item):
+        self.x = x
+        self.y = y
+        self.shape = item
+        self.color = item_color
         self.rotation = 0
 
 
@@ -283,6 +300,25 @@ def draw_hold_shape(shape, surface):
         surface.blit(label, (hx + 10, hy - 30))
 
 
+# draw item space
+def draw_item_space(shape, surface, count):
+    font = pygame.font.SysFont("comicsans", 30)
+    label = font.render("Item ", 1, (255, 255, 255))
+    item_count = font.render("uses left :" + str(count), 1, (255, 255, 255))
+
+    hx = top_left_x - 250
+    hy = top_left_y + play_height / 2 - 350
+    shape_format = shape.shape[shape.rotation % len(shape.shape)]
+    for i, line in enumerate(shape_format):
+        row = list(line)
+        for j, column in enumerate(row):
+            if column == '0':
+                pygame.draw.rect(surface, shape.color,
+                                 (hx + j * block_size, hy + i * block_size, block_size, block_size), 0)
+        surface.blit(label, (hx + 10, hy - 30))
+        surface.blit(item_count, (hx + 10, hy))
+
+
 def next_block():
     next_block = get_shape()
     return next_block
@@ -349,19 +385,20 @@ def draw_window(surface, grid, score=0):
 
 def main(win):
     locked_positions = {}
-
     changed_piece = False
     run = True
     current_piece = current_block()
     next_piece = next_block()
     hold_piece = Blank(0, 0, blank)
     blank_piece = Blank(0, 0, blank)
+    item_piece = Item(1,0,item)
     clock = pygame.time.Clock()
     fall_time = 0
     fall_speed = 0.27
     level_time = 0
     score = 0
     count = 0
+    item_count = 3
 
     while run:
         grid = create_grid(locked_positions)
@@ -431,6 +468,14 @@ def main(win):
                         current_piece.shape = blank_piece.shape
                         current_piece.color = blank_piece.color
 
+                if event.key == pygame.K_LSHIFT:
+                    if item_count >= 1:
+                        item_count -= 1
+                        draw_item_space(item_piece, win, item_count)
+                        pygame.display.update()
+                        # 아이템 효과 구현
+
+
         shape_pos = convert_shape_format(current_piece)
 
         for i in range(len(shape_pos)):
@@ -450,6 +495,7 @@ def main(win):
         draw_window(win, grid, score)
         draw_next_shape(next_piece, win)
         draw_hold_shape(hold_piece, win)
+        draw_item_space(item_piece, win, item_count)
         pygame.display.update()
 
         if check_lost(locked_positions):
