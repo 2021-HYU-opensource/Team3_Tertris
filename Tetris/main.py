@@ -138,6 +138,8 @@ class Piece(object):
         self.shape = shape
         self.color = shape_colors[shapes.index(shape)]
         self.rotation = 0
+
+
 class Blank(object):
     def __init__(self, x, y, blank):
         self.x = x
@@ -145,6 +147,8 @@ class Blank(object):
         self.shape = blank
         self.color = blank_color
         self.rotation = 0
+
+
 def create_grid(locked_pos={}):
     grid = [[(0, 0, 0) for _ in range(10)] for _ in range(20)]
 
@@ -262,7 +266,6 @@ def draw_next_shape(shape, surface):
         surface.blit(label, (sx + 10, sy - 30))
 
 
-
 # hold칸 그리기
 def draw_hold_shape(shape, surface):
     font = pygame.font.SysFont("comicsans", 30)
@@ -288,7 +291,6 @@ def next_block():
 def current_block():
     current_block = get_shape()
     return current_block
-
 
 
 def max_score():
@@ -408,7 +410,7 @@ def main(win):
                     current_piece.rotation += 1
                     if not (valid_space(current_piece, grid)):
                         current_piece.rotation -= 1
-                #Add hold function
+                # Add hold function
                 if event.key == pygame.K_c:
                     if count == 0:
                         hold_piece.shape = current_piece.shape
@@ -428,7 +430,6 @@ def main(win):
                         draw_hold_shape(current_piece, win)
                         current_piece.shape = blank_piece.shape
                         current_piece.color = blank_piece.color
-
 
         shape_pos = convert_shape_format(current_piece)
 
