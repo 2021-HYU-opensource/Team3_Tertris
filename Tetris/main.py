@@ -473,7 +473,8 @@ def main(win):
                         item_count -= 1
                         draw_item_space(item_piece, win, item_count)
                         pygame.display.update()
-                        #아이템 효과 구현
+                        # 아이템 효과 구현
+
 
         shape_pos = convert_shape_format(current_piece)
 
