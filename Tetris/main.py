@@ -419,6 +419,26 @@ def main(win):
                     moveLeft = False
                 if event.key == pygame.K_DOWN :
                     moveDown = True
+                
+                if event.key == pygame.K_c:
+                    if count == 0:
+                        hold_piece.shape = current_piece.shape
+                        hold_piece.color = current_piece.color
+                        draw_hold_shape(current_piece, win)
+                        current_piece.shape = next_piece.shape
+                        current_piece.color = next_piece.color
+                        next_piece = get_shape()
+                        draw_next_shape(next_piece, win)
+                        pygame.display.update()
+                        count += 1
+                    else:
+                        blank_piece.shape = hold_piece.shape
+                        blank_piece.color = hold_piece.color
+                        hold_piece.shape = current_piece.shape
+                        hold_piece.color = current_piece.color
+                        draw_hold_shape(current_piece, win)
+                        current_piece.shape = blank_piece.shape
+                        current_piece.color = blank_piece.color
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT :
                     moveLeft = False
@@ -428,53 +448,9 @@ def main(win):
                     moveDown = False
                     
         
-#             if event.type == pygame.KEYDOWN:
-#                 if event.key == pygame.K_LEFT:
-#                     current_piece.x -= 1
-#                     if not (valid_space(current_piece, grid)):
-#                         current_piece.x += 1
-# 
-#                 if event.key == pygame.K_RIGHT:
-#                     current_piece.x += 1
-#                     if not (valid_space(current_piece, grid)):
-#                         current_piece.x -= 1
-# 
-#                 if event.key == pygame.K_DOWN:
-#                     current_piece.y += 1
-#                     if not (valid_space(current_piece, grid)):
-#                         current_piece.y -= 1
-# 
-#                 if event.key == pygame.K_UP:
-#                     current_piece.rotation += 1
-#                     if not (valid_space(current_piece, grid)):
-#                         current_piece.rotation -= 1
-# 
-#                 if event.key == pygame.K_SPACE:
-#                     current_piece.rotation += 1
-#                     if not (valid_space(current_piece, grid)):
-#                         current_piece.rotation -= 1
-#                 
-                #Add hold function
+
                         
-            if event.key == pygame.K_c:
-                if count == 0:
-                    hold_piece.shape = current_piece.shape
-                    hold_piece.color = current_piece.color
-                    draw_hold_shape(current_piece, win)
-                    current_piece.shape = next_piece.shape
-                    current_piece.color = next_piece.color
-                    next_piece = get_shape()
-                    draw_next_shape(next_piece, win)
-                    pygame.display.update()
-                    count += 1
-                else:
-                    blank_piece.shape = hold_piece.shape
-                    blank_piece.color = hold_piece.color
-                    hold_piece.shape = current_piece.shape
-                    hold_piece.color = current_piece.color
-                    draw_hold_shape(current_piece, win)
-                    current_piece.shape = blank_piece.shape
-                    current_piece.color = blank_piece.color
+                
 
 
         shape_pos = convert_shape_format(current_piece)
