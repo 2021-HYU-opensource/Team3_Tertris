@@ -24,6 +24,8 @@ Downloading Pygame Tutorial: https://www.youtube.com/watch?v=AdUZArA-kZw
 
 아래 화살표 키: 블럭 떨어지는 속도증가
 
+C키 : 다른 모양의 블럭으로 변경
+
 Z키 : 블럭 왼쪽으로 회전
 
 X키 : 블럭 오른쪽으로 회전
@@ -36,7 +38,18 @@ X키 : 블럭 오른쪽으로 회전
    1. Install Python
       1. Go to [Python Download site](https://www.python.org/downloads/)
       2. Once the site is open, select Download Python 3.x.x or Select which version of Python you would like to use from the under "Looking for a specific release?".
-We recommend using Python 3.10.0 for this project. Once you've determined which version you would like to install, select Download.
-      3. open (Linux/mac) Terminal / (Windows) PowerShell 
-   2. 
+We recommend using Python 3.10.0 for this project. Once you've determined which version you would like to install, select Download and Open it.
+   2. Install Pygame
+      1. open (Linux/mac) Terminal / (Windows) PowerShell
+      2. give the command  ```pip install pygame```
+      3. check Whether PyGame is Working or not.
+         1. open a new Terminal and Enter ```python```
+         2. Enter ```import pygame```
 2. Class / Functions
+   1. class Piece(object)
+      - def \_\_init\_\_(self, x, y, shape)
+      - 좌표, 모양을 가지는 객체
+   2. def create_grid(locked_pos={})
+      - 빈 그리드 생성
+      - return list\[20\]\[10\]
+
