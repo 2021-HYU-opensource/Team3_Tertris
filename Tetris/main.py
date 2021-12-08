@@ -48,7 +48,6 @@ I = [['..0..',
       '.....',
       '.....',
       '.....']]
-
 O = [['.....',
       '.....',
       '.00..',
@@ -127,13 +126,23 @@ E = [['.....',
       '.000.',
       '.000.',
       '.....']]
+M = [['.....',
+      '.....',
+      '..0..',
+      '....',
+      '.....']]
 
 shapes = [S, Z, I, O, J, L, T]
 shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
 blank = [B]
-item = [E]
+# Green is change current block singlemino (싱글미노)
+# singlemino is 1 x 1 block
+# Pink is clear one line
+# Purple is penalty, drop currnet block immediately
+items = [E]
 blank_color = ([0, 0, 0])
-item_color = ([0, 128, 0])
+item_colors = [(0, 128, 0), (255, 188, 217), (139, 0, 255)]
+singlemino_color = [(255, 215, 0)]
 
 
 # index 0 - 6 represent shape
@@ -162,7 +171,16 @@ class Item(object):
         self.x = x
         self.y = y
         self.shape = item
-        self.color = item_color
+        self.color = random.choice(item_colors)
+        self.rotation = 0
+
+
+class SingleMino(object):
+    def __init__(self, x, y, singlemino):
+        self.x = x
+        self.y = y
+        self.shape = singlemino
+        self.color = singlemino_color[0]
         self.rotation = 0
 
 
@@ -207,7 +225,6 @@ def valid_space(shape, grid):
 
     return True
 
-
 def check_lost(positions):
     for pos in positions:
         x, y = pos
@@ -219,6 +236,11 @@ def check_lost(positions):
 
 def get_shape():
     return Piece(5, 0, random.choice(shapes))
+
+
+# return item randomly
+def get_item():
+    return Item(5, 0, E)
 
 
 def draw_text_middle(surface, text, size, color):
@@ -391,7 +413,7 @@ def main(win):
     next_piece = next_block()
     hold_piece = Blank(0, 0, blank)
     blank_piece = Blank(0, 0, blank)
-    item_piece = Item(1,0,item)
+    item_piece = Blank(0, 0, blank)
     clock = pygame.time.Clock()
     fall_time = 0
     fall_speed = 0.27
@@ -399,6 +421,7 @@ def main(win):
     score = 0
     count = 0
     item_count = 3
+    hold_count = 1
 
     while run:
         grid = create_grid(locked_positions)
@@ -447,6 +470,7 @@ def main(win):
                     current_piece.rotation += 1
                     if not (valid_space(current_piece, grid)):
                         current_piece.rotation -= 1
+
                 # Add hold function
                 if event.key == pygame.K_c:
                     if count == 0:
@@ -457,6 +481,8 @@ def main(win):
                         current_piece.color = next_piece.color
                         next_piece = get_shape()
                         draw_next_shape(next_piece, win)
+                        current_piece.x = 3
+                        current_piece.y = 0
                         pygame.display.update()
                         count += 1
                     else:
@@ -467,13 +493,25 @@ def main(win):
                         draw_hold_shape(current_piece, win)
                         current_piece.shape = blank_piece.shape
                         current_piece.color = blank_piece.color
-
+                        current_piece.x = 3
+                        current_piece.y = 0
+                # Add item function
                 if event.key == pygame.K_LSHIFT:
                     if item_count >= 1:
                         item_count -= 1
+                        item_piece = get_item()
                         draw_item_space(item_piece, win, item_count)
                         pygame.display.update()
-                        #아이템 효과 구현
+                        # If item color is green, change current block singlemino
+                        # singlemino is 1 x 1 block
+                        if item_piece.color == (0, 128, 0):
+                            current_piece = SingleMino(3, 0, M)
+                        # if item color is pink clear board
+                        elif item_piece.color == (255, 188, 217):
+                            pygame.display.update()
+                        # if item color is purple, drop currnet block immediately
+                        elif item_piece.color == (139, 0, 255):
+                            current_piece.y = 16
 
         shape_pos = convert_shape_format(current_piece)
 
