@@ -562,7 +562,7 @@ def main_menu(win):
 win = pygame.display.set_mode((s_width, s_height))
 pygame.display.set_caption("Tetris!")
 main_menu(win)  # start game
-=======
+
 # module
 import pygame
 import random
